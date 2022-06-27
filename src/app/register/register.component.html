@@ -1,18 +1,67 @@
-<div class="container">
+<!-- <div class="container">
+
     <div class="row">
-        <form>
-            
+
+        <form #RegisterForm="ngForm" (ngSubmit)="handleRegister(RegisterForm.value)">
+
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label class="form-label">Email address</label>
+                <input type="email" ngModel class="form-control" name="email" id="email" aria-describedby="emailHelp">
             </div>
+
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <label class="form-label">Password</label>
+                <input type="password"  ngModel class="form-control" name="password" id="password">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
     </div>
-</div>
+</div> -->
+
+
+
+<section class="back vh-100">
+
+    <div class="container">
+
+
+        <div class="row pt-5" *ngIf="error_message.length" >
+
+            <div class="alert alert-danger py-0">
+
+                <p class="mb-0"> {{ error_message }} </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row pt-5">
+
+            <form [formGroup]="RegisterForm" (ngSubmit)="onSignUp(RegisterForm)">
+                <div class="mb-3">
+                    <label class="form-label text-white">Email address</label>
+                    <input type="email" class="form-control" formControlName="email"
+                        [ngClass]="
+                        [RegisterForm.get('email')?.errors != null && RegisterForm.get('email')?.touched ? 'is-invalid' : '' ,
+                         RegisterForm.get('email')?.errors == null && RegisterForm.get('email')?.touched ? 'is-valid' : '']">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white">Password</label>
+                    <input type="password" class="form-control" formControlName="password"
+                        [ngClass]="
+                        [RegisterForm.get('password')?.errors != null && RegisterForm.get('password')?.touched ? 'is-invalid' : '' ,
+                         RegisterForm.get('password')?.errors == null && RegisterForm.get('password')?.touched ? 'is-valid' : '']">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+
+        </div>
+    </div>
+</section>
