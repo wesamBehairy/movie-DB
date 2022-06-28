@@ -1,5 +1,6 @@
 .back {
     background-color: #121418;
+    min-height: 100vh;
   }
   
   .second {
@@ -20,6 +21,10 @@
     background: #b3ffab;
     background: -webkit-linear-gradient(to left, #12fff7, #b3ffab);
     background: linear-gradient(to left, #12fff7, #b3ffab);
+  }
+
+  .invalid-feedback{
+    display: block;
   }
   
   /* .s_btn:hover {

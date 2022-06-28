@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-
+import { AuthService } from '../auth.service';
 import {
   Auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
 } from '@angular/fire/auth';
 
 @Component({
@@ -15,24 +12,9 @@ import {
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  // constructor(private _Auth: Auth) { }
-
-  // ngOnInit(): void {
-  // }
-
-  // handleRegister(value: any) {
-  //   createUserWithEmailAndPassword(this._Auth, value.email, value.password)
-  //     .then(res => {
-  //       console.log(res);
-  //     }).catch(err => {
-  //       alert(err.message);
-  //     })
-  // }
-
   error_message: string = '';
-
   private isAuthenticated = false;
+  user = this._Auth.currentUser;
 
   RegisterForm = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -41,26 +23,25 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private _Auth: Auth,
-    private _Router: Router
+    private _Router: Router,
+    private _AuthService: AuthService
   ) { }
 
   ngOnInit(): void {
   }
 
-
   // register
   onSignUp(registerForm: FormGroup) {
     const email = registerForm.value.email;
     const password = registerForm.value.password;
-
     if (registerForm.valid) {
-      createUserWithEmailAndPassword(this._Auth, email, password)
+      this._AuthService.signupUser(this._Auth, email, password)
         .then((response) => {
           this.authSuccessfully();
           console.log(response);
         }).catch((error) => {
           console.log(error);
-          this.error_message = error.message;
+          this.error_message = error?.message;
         })
     } else {
       this.error_message = "from is invalid";
@@ -70,7 +51,10 @@ export class RegisterComponent implements OnInit {
   private authSuccessfully() {
     this.isAuthenticated = true;
     this._Router.navigate(['home']);
+  }
 
+  getToken() {
+    this.user?.getIdToken();
   }
 
 }
